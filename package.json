@@ -1,13 +1,12 @@
 {
-  "name": "Backbone.Mongodb",
+  "name": "Backbone.mongoose",
   "description": "Backbone sync for the Mongodb",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "Prathamesh Satpute",
     "email": "prathamesh.satpute@gmail.com"
   },
   "keywords": [
-    "node",
     "backbone",
     "mongoose"
   ],
@@ -22,6 +21,11 @@
     "underscore": "~1.4.4",
     "backbone": "~0.9.10",
     "mongoose": "~3.5.7"
+  },
+  "devDependencies": {
+    "should": "~1.2.2",
+    "mocha": "~1.8.1",
+    "jshint": "~1.0.0"
   },
   "engines": {
     "node": "0.8.x",

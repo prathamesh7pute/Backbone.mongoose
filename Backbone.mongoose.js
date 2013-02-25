@@ -1,38 +1,41 @@
 var mongoose = require("mongoose"),
-	fs = require('fs'),
-	files = fs.readdirSync('./schema'),
-	connection, mongooseSync;
+	fs = require('fs');
 
-files.forEach(function(fileName) {
-	require('./schema/' + fileName);
-});
+var backboneMongoose = function(config) {
 
-connection = mongoose.createConnection("url to connect mongodb");
+	var files = fs.readdirSync(config.schema_dir),
+		connection, mongooseSync;
 
-mongooseSync = function(method, model, options) {
+	connection = mongoose.createConnection(config.db_url);
 
-	var MongooseModel = connection && connection.model(model.mongooseModel),
+	files.forEach(function(fileName) {
+		require(config.schema_dir +'/' + fileName);
+	});
 
-	process = function(err, docs) {
-		if(err) {
-			if(options.error) {
-				options.error(model, err, options);
+	mongooseSync = function(method, model, options) {
+
+		var MongooseModel = connection && connection.model(model.mongooseModel),
+
+		process = function(err, docs) {
+			if(err) {
+				if(options.error) {
+					options.error(model, err, options);
+				}
 			}
+			if(options.success) {
+				options.success(model, docs, options);
+			}
+		},
+
+		data = model.toJSON() || {};
+
+		options = options || (options = {});
+
+		if(!MongooseModel) {
+			return;
 		}
-		if(options.success) {
-			options.success(model, docs, options);
-		}
-	},
 
-	data = model.toJSON() || {};
-
-	options || (options = {});
-
-	if(!MongooseModel) {
-		return;
-	}
-
-	switch(method) {
+		switch(method) {
 		case 'create':
 			MongooseModel.create(data, process);
 			break;
@@ -47,7 +50,11 @@ mongooseSync = function(method, model, options) {
 			break;
 		case 'read':
 			MongooseModel.find(data, process);
-	}
+		}
+	};
+	return mongooseSync;
 };
 
-exports = module.exports = mongooseSync;
+backboneMongoose.VERSION = "0.1.1";
+
+exports = module.exports = backboneMongoose;
