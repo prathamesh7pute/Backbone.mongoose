@@ -2,13 +2,13 @@
  * Test dependencies.
  */
 
-var mongooseSync = require('../Backbone.mongoose'),
+var mongooseSync = require('../backbone.mongoose'),
 	should = require('should'),
 	Backbone = require('Backbone'),
 	mongoose = require('mongoose'),
 	config = {
-		db_url     : "url will go here",
-		schema_dir : __dirname + "/schema"
+		db_url: "db_url goes here",
+		schema_dir: __dirname + "/schema"
 	};
 
 //replace Backbone.sync with the mongoose sync
@@ -18,6 +18,7 @@ Backbone.sync = mongooseSync(config);
 //Initialize sample Backbone Models and collection fot the tests
 var Book = Backbone.Model.extend({
 	mongooseModel: "Book",
+	idAttribute: "_id",
 	defaults: {
 		"name": ""
 	}
@@ -54,8 +55,10 @@ describe('Backbone.mongoose', function() {
 		mongooseSync.VERSION.should.equal("0.1.1");
 	});
 
-	it('Backbone Model.save should save without error', function(done){
-		var book = new Book({name: "High Performance Javascript"});
+	it('Backbone Model.save should save without error', function(done) {
+		var book = new Book({
+			name: "High Performance Javascript"
+		});
 		book.on('change', function(doc) {
 			doc.toJSON().name.should.equal("High Performance Javascript");
 			done();
@@ -63,24 +66,18 @@ describe('Backbone.mongoose', function() {
 		book.save();
 	});
 
-	it('Backbone Model.update should update without error', function(done){
-		var book = new Book({name: "High Performance Javascript"});
-		book.on('change', function(doc) {
-			doc.toJSON().name.should.equal("High Performance Javascript");
-			done();
-		});
-		book.save();
-	});
-
-	it('Backbone Collection.fetch should fetch without error', function(done){
+	it('Backbone Collection.fetch should fetch without error', function(done) {
 		var library = new Library(),
-		success = function(docs) {
-			done();
-		},
-		error = function(err) {
-			done(err);
-		};
-		library.fetch({success: success, error: error});
+			success = function(docs) {
+				done();
+			},
+			error = function(err) {
+				done(err);
+			};
+		library.fetch({
+			success: success,
+			error: error
+		});
 	});
 
 

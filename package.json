@@ -1,15 +1,14 @@
 {
-  "name": "Backbone.mongoose",
+  "name": "backbone.mongoose",
   "description": "Backbone sync for the Mongodb",
-  "version": "0.1.1",
+  "version": "0.1.0",
   "author": {
     "name": "Prathamesh Satpute",
     "email": "prathamesh.satpute@gmail.com"
   },
   "keywords": [
     "backbone",
-    "mongoose"
-  ],
+    "mongoose"],
   "scripts": {
     "test": "make test"
   },

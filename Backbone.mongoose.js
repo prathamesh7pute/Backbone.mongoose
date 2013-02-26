@@ -4,38 +4,37 @@ var mongoose = require("mongoose"),
 var backboneMongoose = function(config) {
 
 	var files = fs.readdirSync(config.schema_dir),
-		connection, mongooseSync;
-
-	connection = mongoose.createConnection(config.db_url);
+		connection = mongoose.createConnection(config.db_url),
+		mongooseSync;
 
 	files.forEach(function(fileName) {
-		require(config.schema_dir +'/' + fileName);
+		require(config.schema_dir + '/' + fileName);
 	});
 
 	mongooseSync = function(method, model, options) {
 
 		var MongooseModel = connection && connection.model(model.mongooseModel),
 
-		process = function(err, docs) {
-			if(err) {
-				if(options.error) {
-					options.error(model, err, options);
+			process = function(err, docs) {
+				if (err) {
+					if (options.error) {
+						options.error(model, err, options);
+					}
 				}
-			}
-			if(options.success) {
-				options.success(model, docs, options);
-			}
-		},
+				if (options.success) {
+					options.success(model, docs, options);
+				}
+			},
 
-		data = model.toJSON() || {};
+			data = model.toJSON() || {};
 
 		options = options || (options = {});
 
-		if(!MongooseModel) {
+		if (!MongooseModel) {
 			return;
 		}
 
-		switch(method) {
+		switch (method) {
 		case 'create':
 			MongooseModel.create(data, process);
 			break;
