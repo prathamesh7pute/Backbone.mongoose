@@ -1,8 +1,10 @@
 examples
 test
 Procfile
+node_modules
 .jshintrc
 .git*
 .travis.yml
+.DS_Store
 History.md
 Makefile
