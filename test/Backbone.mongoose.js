@@ -7,7 +7,7 @@ var mongooseSync = require('../backbone.mongoose'),
 	Backbone = require('Backbone'),
 	mongoose = require('mongoose'),
 	config = {
-		db_url: "db_url goes here",
+		db_url: process.env.DB_URL || 'mongodb://localhost/backbone_mongoose_test',
 		schema_dir: __dirname + "/schema"
 	};
 
