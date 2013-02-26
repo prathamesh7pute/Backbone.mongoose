@@ -4,7 +4,7 @@
 
 var mongooseSync = require('../backbone.mongoose'),
 	should = require('should'),
-	Backbone = require('Backbone'),
+	Backbone = require('backbone'),
 	mongoose = require('mongoose'),
 	config = {
 		db_url: process.env.DB_URL || 'mongodb://localhost/backbone_mongoose_test',
